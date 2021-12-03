@@ -36,6 +36,10 @@ subroutine fast_fourier_transform(re, im, sz)
             nim(i) = 0
         enddo
         call fast_fourier_transformR(auxre, auxim, nre, nim, nsz, 1, 0)
+        do i=1,sz
+            re(i)=nre(i)
+            im(i)=nim(i)
+        enddo
         deallocate(nre)
         deallocate(nim)
     else

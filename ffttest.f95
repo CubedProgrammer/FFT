@@ -10,13 +10,15 @@ implicit none
     real, dimension(:), allocatable::re
     real, dimension(:), allocatable::im
     integer::i
-    allocate(re(4))
-    allocate(im(4))
-    do i=1,4
+    integer::sz
+    sz = 5
+    allocate(re(sz))
+    allocate(im(sz))
+    do i=1,sz
         read*, re(i), im(i)
     enddo
-    call fast_fourier_transform(re, im, 4)
-    do i=1,4
+    call fast_fourier_transform(re, im, sz)
+    do i=1,sz
         print*, re(i), im(i)
     enddo
     deallocate(re)
