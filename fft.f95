@@ -1,5 +1,15 @@
 subroutine fast_fourier_transform(re, im, sz)
-implicit none
+    interface
+        recursive subroutine fast_fourier_transformR(auxre, auxim, re, im, sz, gp, off)
+            real, dimension(:), allocatable::auxre
+            real, dimension(:), allocatable::auxim
+            real, dimension(:), allocatable::re
+            real, dimension(:), allocatable::im
+            integer::sz
+            integer::gp
+            integer::off
+        endsubroutine
+    endinterface
     real, dimension(:), allocatable::re
     real, dimension(:), allocatable::im
     real, dimension(:), allocatable::auxre
@@ -17,11 +27,11 @@ implicit none
         allocate(nim(nsz))
         allocate(auxre(nsz))
         allocate(auxim(nsz))
-        do i=0,sz-1
+        do i=1,sz
             nre(i)=re(i)
             nim(i)=im(i)
         enddo
-        do i=sz,nsz-1
+        do i=sz+1,nsz
             nre(i) = 0
             nim(i) = 0
         enddo
@@ -29,8 +39,8 @@ implicit none
         deallocate(nre)
         deallocate(nim)
     else
-        allocate(auxre(nsz))
-        allocate(auxim(nsz))
+        allocate(auxre(sz))
+        allocate(auxim(sz))
         call fast_fourier_transformR(auxre, auxim, re, im, sz, 1, 0)
     endif
     deallocate(auxre)
